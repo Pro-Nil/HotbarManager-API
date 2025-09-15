@@ -344,9 +344,9 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## 🔗 Links
 
-- **Main Plugin**: [HotbarManager](https://github.com/pronil/HotbarManager)
+- **Main Plugin**: [HotbarManager](https://polymart.org/product/2183/bedwars1058-hotbarmanager)
 - **Discord Support**: [Join our server](https://discord.gg/g65kazuDaY)
-- **SpigotMC**: [Download HotbarManager](https://www.spigotmc.org/resources/bedwars1058-hotbarmanager.1.5.0)
+- **Polymart**: [Download HotbarManager](https://polymart.org/product/2183/bedwars1058-hotbarmanager)
 - **Issues**: [Report bugs or request features](https://github.com/Pro-Nil/HotbarManager-API/issues)
 
 ## 📄 License
@@ -355,13 +355,12 @@ This API is provided under the MIT License. See the [LICENSE](LICENSE) file for 
 
 ## 🎉 Acknowledgments
 
-- **BedWars1058** - For the amazing BedWars plugin
-- **SpigotMC Community** - For support and feedback
-- **Contributors** - For helping improve the API
+- **BedWars1058 & BedWars2023 Team** - For the amazing BedWars plugin & community
+- **Minecraft Community** - For support and feedback
 
 ---
 
-**Made with ❤️ by the HotbarManager team**
+**Made with ❤️ by Pro_Nil**
 
 [![GitHub stars](https://img.shields.io/github/stars/Pro-Nil/HotbarManager-API.svg?style=social&label=Star)](https://github.com/Pro-Nil/HotbarManager-API)
 [![GitHub forks](https://img.shields.io/github/forks/Pro-Nil/HotbarManager-API.svg?style=social&label=Fork)](https://github.com/Pro-Nil/HotbarManager-API/fork)
