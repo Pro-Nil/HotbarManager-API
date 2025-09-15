@@ -1,0 +1,23 @@
+name: HotbarSyncAddon
+version: 1.0.0
+main: me.pronil.hotbarmanager.addon.hotbarsync.HotbarSyncAddon
+api-version: 1.8
+depend: [BedWars1058-HotbarManager]
+description: Example addon for HotbarManager that synchronizes hotbars between team members
+author: pronil
+website: https://github.com/Pro-Nil/HotbarManager-API
+
+commands:
+  hotbarsync:
+    description: Manage hotbar synchronization with teams
+    usage: /hotbarsync [join|leave|sync|share|info] [team]
+    permission: hotbarsync.use
+    permission-message: You don't have permission to use this command!
+
+permissions:
+  hotbarsync.use:
+    description: Allows players to use hotbar synchronization commands
+    default: true
+  hotbarsync.admin:
+    description: Allows players to manage teams and view all team information
+    default: op

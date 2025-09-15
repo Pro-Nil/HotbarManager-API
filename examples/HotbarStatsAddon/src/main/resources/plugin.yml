@@ -1,0 +1,23 @@
+name: HotbarStatsAddon
+version: 1.0.0
+main: me.pronil.hotbarmanager.addon.hotbarstats.HotbarStatsAddon
+api-version: 1.8
+depend: [BedWars1058-HotbarManager]
+description: Example addon for HotbarManager that tracks player statistics
+author: pronil
+website: https://github.com/Pro-Nil/HotbarManager-API
+
+commands:
+  hotbarstats:
+    description: View hotbar statistics
+    usage: /hotbarstats [player|top|reset]
+    permission: hotbarstats.use
+    permission-message: You don't have permission to use this command!
+
+permissions:
+  hotbarstats.use:
+    description: Allows players to view hotbar statistics
+    default: true
+  hotbarstats.reset:
+    description: Allows players to reset their hotbar statistics
+    default: op

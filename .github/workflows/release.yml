@@ -1,0 +1,108 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+      
+    - name: Generate Javadoc
+      run: mvn javadoc:javadoc
+      
+    - name: Generate Sources JAR
+      run: mvn source:jar
+      
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## HotbarManager API ${{ github.ref }}
+          
+          ### What's New
+          - Complete API interface for HotbarManager plugin
+          - Event system for addon development
+          - Example addons included (HotbarStatsAddon, HotbarSyncAddon)
+          - Comprehensive documentation and guides
+          - Maven integration and GitHub Actions CI/CD
+          
+          ### Downloads
+          - **API JAR**: `HotbarManager-API-${{ github.ref_name }}.jar`
+          - **Sources JAR**: `HotbarManager-API-${{ github.ref_name }}-sources.jar`
+          - **Javadoc JAR**: `HotbarManager-API-${{ github.ref_name }}-javadoc.jar`
+          
+          ### Installation
+          Add the API JAR to your project's classpath or use Maven:
+          ```xml
+          <dependency>
+              <groupId>me.pronil.hotbarmanager</groupId>
+              <artifactId>HotbarManager-API</artifactId>
+              <version>${{ github.ref_name }}</version>
+              <scope>provided</scope>
+          </dependency>
+          ```
+          
+          ### Documentation
+          - [API Documentation](https://github.com/Pro-Nil/HotbarManager-API/blob/main/README.md)
+          - [Example Addons](https://github.com/Pro-Nil/HotbarManager-API/tree/main/examples)
+          
+          ### Example Addons
+          - **HotbarStatsAddon**: Tracks player statistics and usage patterns
+          - **HotbarSyncAddon**: Team-based hotbar synchronization system
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/HotbarManager-API-${{ github.ref_name }}.jar
+        asset_name: HotbarManager-API-${{ github.ref_name }}.jar
+        asset_content_type: application/java-archive
+        
+    - name: Upload Sources JAR
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/HotbarManager-API-${{ github.ref_name }}-sources.jar
+        asset_name: HotbarManager-API-${{ github.ref_name }}-sources.jar
+        asset_content_type: application/java-archive
+        
+    - name: Upload Javadoc JAR
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
+        asset_name: HotbarManager-API-${{ github.ref_name }}-javadoc.jar
+        asset_content_type: application/java-archive
