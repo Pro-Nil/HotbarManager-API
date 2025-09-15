@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,7 +38,11 @@ jobs:
       run: mvn javadoc:javadoc
       
     - name: List build artifacts
-      run: ls -la target/
+      run: |
+        echo "=== Target directory contents ==="
+        ls -la target/
+        echo "=== Looking for JAR files ==="
+        find target/ -name "*.jar" -type f
       
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -53,9 +60,9 @@ jobs:
           - Maven integration and GitHub Actions CI/CD
           
           ### Downloads
-          - **API JAR**: `HotbarManager-API-${{ github.ref_name }}.jar` - Main API library
-          - **Sources JAR**: `HotbarManager-API-${{ github.ref_name }}-sources.jar` - Source code
-          - **Javadoc JAR**: `HotbarManager-API-${{ github.ref_name }}-javadoc.jar` - Documentation
+          - **API JAR**: Main API library
+          - **Sources JAR**: Source code for IDE support
+          - **Javadoc JAR**: Complete documentation
           
           ### Installation
           
@@ -69,31 +76,19 @@ jobs:
           mvn clean package
           ```
           
-          **Option 3: Maven dependency (when published to Maven Central)**
-          ```xml
-          <dependency>
-              <groupId>me.pronil.hotbarmanager</groupId>
-              <artifactId>HotbarManager-API</artifactId>
-              <version>${{ github.ref_name }}</version>
-              <scope>provided</scope>
-          </dependency>
-          ```
-          
           ### Documentation
           - [API Documentation](https://github.com/Pro-Nil/HotbarManager-API/blob/main/README.md)
           - [Example Addons](https://github.com/Pro-Nil/HotbarManager-API/tree/main/examples)
+          - [JAR Usage Guide](https://github.com/Pro-Nil/HotbarManager-API/blob/main/JAR_USAGE_GUIDE.md)
           
           ### Example Addons
           - **HotbarStatsAddon**: Tracks player statistics and usage patterns
           - **HotbarSyncAddon**: Team-based hotbar synchronization system
         files: |
-          target/HotbarManager-API-${{ github.ref_name }}.jar
-          target/HotbarManager-API-${{ github.ref_name }}-sources.jar
-          target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
-          src/
-          examples/
+          target/*.jar
           README.md
           LICENSE
           pom.xml
+          JAR_USAGE_GUIDE.md
         draft: false
         prerelease: false
