@@ -18,24 +18,10 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         
-    - name: Cache Maven dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-        
     - name: Build with Maven
-      run: mvn clean package -DskipTests
-      
-    - name: Generate Javadoc
-      run: mvn javadoc:javadoc
-      
-    - name: Generate Sources JAR
-      run: mvn source:jar
+      run: mvn clean compile -DskipTests
       
     - name: Create Release
-      id: create_release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ github.ref_name }}
@@ -48,22 +34,13 @@ jobs:
           - Event system for addon development
           - Example addons included (HotbarStatsAddon, HotbarSyncAddon)
           - Comprehensive documentation and guides
-          - Maven integration and GitHub Actions CI/CD
-          
-          ### Downloads
-          - **API JAR**: `HotbarManager-API-${{ github.ref_name }}.jar`
-          - **Sources JAR**: `HotbarManager-API-${{ github.ref_name }}-sources.jar`
-          - **Javadoc JAR**: `HotbarManager-API-${{ github.ref_name }}-javadoc.jar`
           
           ### Installation
-          Add the API JAR to your project's classpath or use Maven:
-          ```xml
-          <dependency>
-              <groupId>me.pronil.hotbarmanager</groupId>
-              <artifactId>HotbarManager-API</artifactId>
-              <version>${{ github.ref_name }}</version>
-              <scope>provided</scope>
-          </dependency>
+          Download the source code and build with Maven:
+          ```bash
+          git clone https://github.com/Pro-Nil/HotbarManager-API.git
+          cd HotbarManager-API
+          mvn clean package
           ```
           
           ### Documentation
@@ -74,8 +51,10 @@ jobs:
           - **HotbarStatsAddon**: Tracks player statistics and usage patterns
           - **HotbarSyncAddon**: Team-based hotbar synchronization system
         files: |
-          target/HotbarManager-API-${{ github.ref_name }}.jar
-          target/HotbarManager-API-${{ github.ref_name }}-sources.jar
-          target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
+          src/
+          examples/
+          README.md
+          LICENSE
+          pom.xml
         draft: false
         prerelease: false
