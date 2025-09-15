@@ -18,8 +18,24 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
     - name: Build with Maven
-      run: mvn clean compile -DskipTests
+      run: mvn clean package -DskipTests
+      
+    - name: Generate Sources JAR
+      run: mvn source:jar
+      
+    - name: Generate Javadoc JAR
+      run: mvn javadoc:javadoc
+      
+    - name: List build artifacts
+      run: ls -la target/
       
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -34,13 +50,33 @@ jobs:
           - Event system for addon development
           - Example addons included (HotbarStatsAddon, HotbarSyncAddon)
           - Comprehensive documentation and guides
+          - Maven integration and GitHub Actions CI/CD
+          
+          ### Downloads
+          - **API JAR**: `HotbarManager-API-${{ github.ref_name }}.jar` - Main API library
+          - **Sources JAR**: `HotbarManager-API-${{ github.ref_name }}-sources.jar` - Source code
+          - **Javadoc JAR**: `HotbarManager-API-${{ github.ref_name }}-javadoc.jar` - Documentation
           
           ### Installation
-          Download the source code and build with Maven:
+          
+          **Option 1: Use JAR files directly**
+          Download the JAR files and add them to your project's classpath.
+          
+          **Option 2: Build from source**
           ```bash
           git clone https://github.com/Pro-Nil/HotbarManager-API.git
           cd HotbarManager-API
           mvn clean package
+          ```
+          
+          **Option 3: Maven dependency (when published to Maven Central)**
+          ```xml
+          <dependency>
+              <groupId>me.pronil.hotbarmanager</groupId>
+              <artifactId>HotbarManager-API</artifactId>
+              <version>${{ github.ref_name }}</version>
+              <scope>provided</scope>
+          </dependency>
           ```
           
           ### Documentation
@@ -51,6 +87,9 @@ jobs:
           - **HotbarStatsAddon**: Tracks player statistics and usage patterns
           - **HotbarSyncAddon**: Team-based hotbar synchronization system
         files: |
+          target/HotbarManager-API-${{ github.ref_name }}.jar
+          target/HotbarManager-API-${{ github.ref_name }}-sources.jar
+          target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
           src/
           examples/
           README.md
