@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up JDK 8
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
@@ -35,14 +35,13 @@ jobs:
       run: mvn source:jar
       
     - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      id: create_release
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        name: HotbarManager API ${{ github.ref_name }}
         body: |
-          ## HotbarManager API ${{ github.ref }}
+          ## HotbarManager API ${{ github.ref_name }}
           
           ### What's New
           - Complete API interface for HotbarManager plugin
@@ -74,35 +73,9 @@ jobs:
           ### Example Addons
           - **HotbarStatsAddon**: Tracks player statistics and usage patterns
           - **HotbarSyncAddon**: Team-based hotbar synchronization system
+        files: |
+          target/HotbarManager-API-${{ github.ref_name }}.jar
+          target/HotbarManager-API-${{ github.ref_name }}-sources.jar
+          target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
         draft: false
         prerelease: false
-        
-    - name: Upload Release Assets
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/HotbarManager-API-${{ github.ref_name }}.jar
-        asset_name: HotbarManager-API-${{ github.ref_name }}.jar
-        asset_content_type: application/java-archive
-        
-    - name: Upload Sources JAR
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/HotbarManager-API-${{ github.ref_name }}-sources.jar
-        asset_name: HotbarManager-API-${{ github.ref_name }}-sources.jar
-        asset_content_type: application/java-archive
-        
-    - name: Upload Javadoc JAR
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/HotbarManager-API-${{ github.ref_name }}-javadoc.jar
-        asset_name: HotbarManager-API-${{ github.ref_name }}-javadoc.jar
-        asset_content_type: application/java-archive
