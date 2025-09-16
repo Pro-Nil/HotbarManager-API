@@ -25,7 +25,6 @@ Official API for the HotbarManager plugin that allows developers to create addon
 
 ### Prerequisites
 
-- **HotbarManager Plugin**: [Download from SpigotMC](https://www.spigotmc.org/resources/bedwars1058-hotbarmanager.1.5.0)
 - **Java 8+**: Required for development
 - **Maven/Gradle**: For dependency management
 
