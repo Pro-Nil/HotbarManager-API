@@ -4,6 +4,7 @@ Official API for the HotbarManager plugin that allows developers to create addon
 
 > **Note**: This is a separate project from the main HotbarManager plugin. Make sure you have the main plugin installed on your server before using this API.
 
+[![JitPack](https://jitpack.io/v/Pro-Nil/HotbarManager-API.svg)](https://jitpack.io/#Pro-Nil/HotbarManager-API)
 [![GitHub release](https://img.shields.io/github/release/Pro-Nil/HotbarManager-API.svg)](https://github.com/Pro-Nil/HotbarManager-API/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-8+-blue.svg)](https://www.oracle.com/java/)
@@ -20,7 +21,7 @@ Official API for the HotbarManager plugin that allows developers to create addon
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 
-## 🚀 Installation
+## 🚀 Installation (via JitPack)
 
 ### Prerequisites
 
@@ -28,34 +29,57 @@ Official API for the HotbarManager plugin that allows developers to create addon
 - **Java 8+**: Required for development
 - **Maven/Gradle**: For dependency management
 
-### Maven Dependency
+### Maven
 
-Add the following dependency to your `pom.xml`:
+Add JitPack and the dependency to your `pom.xml`:
 
 ```xml
-<dependency>
-    <groupId>me.pronil.hotbarmanager</groupId>
-    <artifactId>HotbarManager-API</artifactId>
-    <version>1.5.0</version>
-    <scope>provided</scope>
-</dependency>
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+    <!-- your other repositories here -->
+    
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.Pro-Nil</groupId>
+        <artifactId>HotbarManager-API</artifactId>
+        <version>v1.5.0</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
 ```
 
-### Gradle Dependency
-
-Add the following to your `build.gradle`:
+### Gradle (Groovy)
 
 ```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    compileOnly 'me.pronil.hotbarmanager:HotbarManager-API:1.5.0'
+    compileOnly 'com.github.Pro-Nil:HotbarManager-API:v1.5.0'
 }
 ```
 
-### Manual Installation
+### Gradle (Kotlin DSL)
 
-1. Download the latest JAR from [Releases](https://github.com/Pro-Nil/HotbarManager-API/releases)
-2. Add it to your project's classpath
-3. Ensure HotbarManager plugin is installed on the server
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    compileOnly("com.github.Pro-Nil:HotbarManager-API:v1.5.0")
+}
+```
+
+### Manual (optional)
+
+Prefer JitPack. If you need a direct JAR, use the [Releases](https://github.com/Pro-Nil/HotbarManager-API/releases) page.
 
 ## ⚡ Quick Start
 
